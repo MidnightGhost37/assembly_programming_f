@@ -1,4 +1,29 @@
-**/*.o*
-**/*.obj
-pwndbg
-**/.gdb_history
+# Object files
+*.o
+*.obj
+
+# Executable files
+*.exe
+*.out
+
+# Linux/Unix executables with no extension
+# Ignore common build output directories instead of all extensionless files
+/bin/
+/build/
+
+# Debugging files
+*.gdb
+*.core
+core
+
+# NASM/listing files
+*.lst
+
+# Temporary/editor files
+*~
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
