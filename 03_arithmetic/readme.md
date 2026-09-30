@@ -22,32 +22,43 @@ $ bash build.sh
 ```
 
 
-## Addition
-01 - [Addition 1](./add/add1.md)
+## Analysis per operation
 
-02 - [Addition 2](./add/add2.md)
+Every folder has a `README.md` with the full GDB walkthrough of its three programs and a summary table of which flags are set or cleared, and why.
 
-03 - [Addition 3](./add/add3.md)
+| Folder | Programs | Instructions covered | Flags that are defined |
+|---|---|---|---|
+| [add](./add/README.md) | `add1`, `add2`, `add3` | `add`, `adc` | CF, PF, AF, ZF, SF, OF |
+| [sub](./sub/README.md) | `sub1`, `sub2`, `sub3` | `sub`, `sbb` | CF (borrow), PF, AF, ZF, SF, OF |
+| [mul](./mul/README.md) | `mul1`, `mul2`, `mul3` | `mul` (8, 16 and 32 bit) | CF and OF only |
+| [div](./div/README.md) | `div1`, `div2`, `div3` | `div` (8, 16 and 32 bit) | none |
 
+### Reading the flags
 
-## Division
-04 - [Division 1](./div/div1.md)
+- **CF (Carry)** - unsigned overflow: the carry out of the top bit on an addition, or the borrow on a subtraction.
+- **OF (Overflow)** - signed overflow: the result does not fit in the signed range (for example +127 for 8 bits).
+- **SF (Sign)** - a copy of the most significant bit of the result.
+- **ZF (Zero)** - the result is 0.
+- **PF (Parity)** - the lowest byte of the result has an even number of 1-bits, even for 16 and 32 bit operations.
+- **AF (Auxiliary)** - a carry or borrow between bit 3 and bit 4.
+- **IF (Interrupt)** - not an arithmetic flag. The operating system leaves it on for user processes, which is why `eflags` starts as `0x202 [ IF ]` and IF is on in every dump.
 
-05 - [Division 2](./div/div2.md)
+`mul` defines only CF and OF (both set when the upper half of the product is not zero), and `div` leaves all of them undefined, so those two folders focus on the result registers instead. When any program is allowed to finish, `xor ebx, ebx` sets the flags to `0x246 [ PF ZF IF ]`.
 
-06 - [Division 3](./div/div3.md)
+### Results at a glance
 
-## Multiplication
-07 - [Multiplication 1](./mul/mul1.md)
-
-08 - [Multiplication 2](./mul/mul2.md)
-
-09 - [Multiplication 3](./mul/mul3.md)
-
-## Subtraction
-10 - [Subtraction 1](./sub/sub1.md)
-
-11 - [Subtraction 2](./sub/sub2.md)
-
-12 - [Subtraction 3](./sub/sub3.md)
+| Program | Operation | Result | eflags |
+|---|---|---|---|
+| add1 | 120 + 10 (8 bit) | 130 (`0x82`) | `0xA96 [ PF AF SF IF OF ]` |
+| add2 | 32000 + 500 (16 bit) | 32500 (`0x7EF4`) | `0x202 [ IF ]` |
+| add3 | `0xFFFF + 1`, then `adc ax, 0` | `0`, then `1` | `0x257 [ CF PF AF ZF IF ]`, then `0x202 [ IF ]` |
+| sub1 | 50 - 80 (8 bit) | -30 (`0xE2`) | `0x287 [ CF PF SF IF ]` |
+| sub2 | 1000 - 2000 (16 bit) | -1000 (`0xFC18`) | `0x287 [ CF PF SF IF ]` |
+| sub3 | `0 - 1`, then `sbb ax, 0` | `0xFFFF`, then `0xFFFE` | `0x297 [ CF PF AF SF IF ]`, then `0x282 [ SF IF ]` |
+| mul1 | 25 * 10 (8 bit) | 250 in `AX` | `0x202 [ IF ]` |
+| mul2 | 3000 * 200 (16 bit) | 600000 in `DX:AX` | `0xA03 [ CF IF OF ]` |
+| mul3 | 100000 * 300000 (32 bit) | 30000000000 in `EDX:EAX` | `0xA03 [ CF IF OF ]` |
+| div1 | 100 / 7 (8 bit) | `AL` = 14, `AH` = 2 | `0x202 [ IF ]` |
+| div2 | 50000 / 300 (16 bit) | `AX` = 166, `DX` = 200 | `0x202 [ IF ]` |
+| div3 | 300000000 / 1000 (32 bit) | `EAX` = 300000, `EDX` = 0 | `0x202 [ IF ]` |
 
