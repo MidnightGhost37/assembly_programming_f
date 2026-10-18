@@ -11,11 +11,9 @@ section .text
     global _start
 
 _start:
-
     ; add [num1], [num2]
-
     mov al, [num1]
-    add al, [num2]       ; al = num1 + num2        10000010
+    add al, [num2]   ;al = num1 + num2  10000010
     mov [result], al
 
 n_break:

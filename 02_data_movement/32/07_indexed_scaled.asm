@@ -7,8 +7,8 @@ global _start
 
 _start:
 
-    mov ebx, numbers
-    mov esi, 8
+    mov ebx, numbers  
+    mov esi, 4
 
     mov eax, [ebx + esi]
 
