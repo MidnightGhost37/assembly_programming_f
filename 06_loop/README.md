@@ -1,5 +1,7 @@
 # Loops
 
+> Sync update (19 October 2026): Upstream now saves and restores `RCX` in `01_loop_instruction.asm`; the updated binary was checked and prints five lines before exiting successfully. The `01` timeout analysis below describes the earlier version. Upstream also added `03_cmp_jl.asm`, `05_do_while.asm`, and `06_push_pop.asm`; those new sources have not yet been compiled or analyzed here. The locally verified binaries for unchanged `07_sum_loop.asm` and `09_loop_syscall.asm` were retained; the latter prints five lines as its source specifies.
+
 All six programs were assembled, linked, executed, and inspected with pwndbg in Kali WSL2 (`kali-linux`) on 16 October 2026. These are 64-bit Linux programs. **Every program prints output.** Four exit successfully, while two keep printing until interrupted.
 
 ## Build and run

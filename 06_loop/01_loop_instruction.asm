@@ -9,6 +9,7 @@ _start:
     mov rcx, 5                  ; Repeat 5 times
 
 repeat:
+    push rcx
     ; Print the message
     mov rax, 1              
     mov rdi, 1                  
@@ -16,9 +17,10 @@ repeat:
     mov rdx, length
     syscall
 
+    pop rcx
     loop repeat    
 
-    
+
     mov rax, 60          
     xor rdi, rdi
     syscall
