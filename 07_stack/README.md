@@ -245,19 +245,6 @@ Compare the two programs side by side:
 
 **Explain to a partner:** why is the first value pushed the second value popped? Draw two boxes for the stack slots, label the top, and update the pointer after each instruction.
 
-## What to capture for class
-
-For each program, fill in a row before viewing the worked traces, then correct it from GDB:
-
-| Program | Prediction | GDB observation | Instruction that explains it | Remaining question |
-|---|---|---|---|---|
-| `01` | | | | |
-| `02` | | | | |
-| `03` | | | | |
-| `04` | | | | |
-| `05` | | | | |
-| `06` | | | | |
-
 ## Bring to the discussion
 
 1. Sketch the stack at the first `nop` in `01` and inside `work` in `02`. Label addresses relative to `RSP` or `RBP`.
