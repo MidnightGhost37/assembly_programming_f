@@ -1,0 +1,224 @@
+(pwndbg) file /mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01
+(pwndbg) version
+Pwndbg:   2026.07.29 build: f14054b4d (Linux)
+Python:   3.14.7 (main, Sep  5 2026, 05:55:41) [GCC 16.2.0]
+GDB:      17.2
+Capstone: 5.0.6
+Unicorn:  2.1.4
+Pwnlib:   4.14.1
+(pwndbg) starti
+(pwndbg) disassemble _start
+Dump of assembler code for function _start:
+=> 0x0000000000401000 <+0>:	mov    eax,0x64
+   0x0000000000401005 <+5>:	mov    ebx,0xc8
+   0x000000000040100a <+10>:	push   rax
+   0x000000000040100b <+11>:	push   rbx
+   0x000000000040100c <+12>:	nop
+   0x000000000040100d <+13>:	pop    rcx
+   0x000000000040100e <+14>:	pop    rdx
+   0x000000000040100f <+15>:	nop
+   0x0000000000401010 <+16>:	mov    eax,0x3c
+   0x0000000000401015 <+21>:	xor    rdi,rdi
+   0x0000000000401018 <+24>:	syscall
+End of assembler dump.
+
+STEP 0: 0x401000 mov    eax,0x64; rsp-entry = 0
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbe0      0x7fffffffdbe0
+rbp            0x0                 0x0
+rax            0x0                 0x0
+rbx            0x0                 0x0
+rcx            0x0                 0x0
+rdx            0x0                 0x0
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbe0 ◂— 1
+01:0008│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+02:0010│     0x7fffffffdbf0 ◂— 0
+03:0018│     0x7fffffffdbf8 —▸ 0x7fffffffded1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $rsp
+0x7fffffffdbe0:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbe8:	0x72	0xde	0xff	0xff	0xff	0x7f	0x00	0x00
+(pwndbg) stepi
+
+STEP 1: 0x401005 mov    ebx,0xc8; rsp-entry = 0
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbe0      0x7fffffffdbe0
+rbp            0x0                 0x0
+rax            0x64                0x64
+rbx            0x0                 0x0
+rcx            0x0                 0x0
+rdx            0x0                 0x0
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbe0 ◂— 1
+01:0008│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+02:0010│     0x7fffffffdbf0 ◂— 0
+03:0018│     0x7fffffffdbf8 —▸ 0x7fffffffded1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $rsp
+0x7fffffffdbe0:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbe8:	0x72	0xde	0xff	0xff	0xff	0x7f	0x00	0x00
+(pwndbg) stepi
+
+STEP 2: 0x40100a push   rax; rsp-entry = 0
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbe0      0x7fffffffdbe0
+rbp            0x0                 0x0
+rax            0x64                0x64
+rbx            0xc8                0xc8
+rcx            0x0                 0x0
+rdx            0x0                 0x0
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbe0 ◂— 1
+01:0008│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+02:0010│     0x7fffffffdbf0 ◂— 0
+03:0018│     0x7fffffffdbf8 —▸ 0x7fffffffded1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $rsp
+0x7fffffffdbe0:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbe8:	0x72	0xde	0xff	0xff	0xff	0x7f	0x00	0x00
+(pwndbg) stepi
+
+STEP 3: 0x40100b push   rbx; rsp-entry = -8
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbd8      0x7fffffffdbd8
+rbp            0x0                 0x0
+rax            0x64                0x64
+rbx            0xc8                0xc8
+rcx            0x0                 0x0
+rdx            0x0                 0x0
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbd8 ◂— 0x64 /* 'd' */
+01:0008│     0x7fffffffdbe0 ◂— 1
+02:0010│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+03:0018│     0x7fffffffdbf0 ◂— 0
+(pwndbg) x/16bx $rsp
+0x7fffffffdbd8:	0x64	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbe0:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+(pwndbg) stepi
+
+STEP 4: 0x40100c nop; rsp-entry = -16
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbd0      0x7fffffffdbd0
+rbp            0x0                 0x0
+rax            0x64                0x64
+rbx            0xc8                0xc8
+rcx            0x0                 0x0
+rdx            0x0                 0x0
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbd0 ◂— 0xc8
+01:0008│     0x7fffffffdbd8 ◂— 0x64 /* 'd' */
+02:0010│     0x7fffffffdbe0 ◂— 1
+03:0018│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+(pwndbg) x/16bx $rsp
+0x7fffffffdbd0:	0xc8	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbd8:	0x64	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+(pwndbg) stepi
+
+STEP 5: 0x40100d pop    rcx; rsp-entry = -16
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbd0      0x7fffffffdbd0
+rbp            0x0                 0x0
+rax            0x64                0x64
+rbx            0xc8                0xc8
+rcx            0x0                 0x0
+rdx            0x0                 0x0
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbd0 ◂— 0xc8
+01:0008│     0x7fffffffdbd8 ◂— 0x64 /* 'd' */
+02:0010│     0x7fffffffdbe0 ◂— 1
+03:0018│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+(pwndbg) x/16bx $rsp
+0x7fffffffdbd0:	0xc8	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbd8:	0x64	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+(pwndbg) stepi
+
+STEP 6: 0x40100e pop    rdx; rsp-entry = -8
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbd8      0x7fffffffdbd8
+rbp            0x0                 0x0
+rax            0x64                0x64
+rbx            0xc8                0xc8
+rcx            0xc8                0xc8
+rdx            0x0                 0x0
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbd8 ◂— 0x64 /* 'd' */
+01:0008│     0x7fffffffdbe0 ◂— 1
+02:0010│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+03:0018│     0x7fffffffdbf0 ◂— 0
+(pwndbg) x/16bx $rsp
+0x7fffffffdbd8:	0x64	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbe0:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+(pwndbg) stepi
+
+STEP 7: 0x40100f nop; rsp-entry = 0
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbe0      0x7fffffffdbe0
+rbp            0x0                 0x0
+rax            0x64                0x64
+rbx            0xc8                0xc8
+rcx            0xc8                0xc8
+rdx            0x64                0x64
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbe0 ◂— 1
+01:0008│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+02:0010│     0x7fffffffdbf0 ◂— 0
+03:0018│     0x7fffffffdbf8 —▸ 0x7fffffffded1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $rsp
+0x7fffffffdbe0:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbe8:	0x72	0xde	0xff	0xff	0xff	0x7f	0x00	0x00
+(pwndbg) stepi
+
+STEP 8: 0x401010 mov    eax,0x3c; rsp-entry = 0
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbe0      0x7fffffffdbe0
+rbp            0x0                 0x0
+rax            0x64                0x64
+rbx            0xc8                0xc8
+rcx            0xc8                0xc8
+rdx            0x64                0x64
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbe0 ◂— 1
+01:0008│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+02:0010│     0x7fffffffdbf0 ◂— 0
+03:0018│     0x7fffffffdbf8 —▸ 0x7fffffffded1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $rsp
+0x7fffffffdbe0:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbe8:	0x72	0xde	0xff	0xff	0xff	0x7f	0x00	0x00
+(pwndbg) stepi
+
+STEP 9: 0x401015 xor    rdi,rdi; rsp-entry = 0
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbe0      0x7fffffffdbe0
+rbp            0x0                 0x0
+rax            0x3c                0x3c
+rbx            0xc8                0xc8
+rcx            0xc8                0xc8
+rdx            0x64                0x64
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbe0 ◂— 1
+01:0008│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+02:0010│     0x7fffffffdbf0 ◂— 0
+03:0018│     0x7fffffffdbf8 —▸ 0x7fffffffded1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $rsp
+0x7fffffffdbe0:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbe8:	0x72	0xde	0xff	0xff	0xff	0x7f	0x00	0x00
+(pwndbg) stepi
+
+STEP 10: 0x401018 syscall; rsp-entry = 0
+(pwndbg) info registers rsp rbp rax rbx rcx rdx
+rsp            0x7fffffffdbe0      0x7fffffffdbe0
+rbp            0x0                 0x0
+rax            0x3c                0x3c
+rbx            0xc8                0xc8
+rcx            0xc8                0xc8
+rdx            0x64                0x64
+(pwndbg) telescope $rsp 4
+00:0000│ rsp 0x7fffffffdbe0 ◂— 1
+01:0008│     0x7fffffffdbe8 —▸ 0x7fffffffde72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/01'
+02:0010│     0x7fffffffdbf0 ◂— 0
+03:0018│     0x7fffffffdbf8 —▸ 0x7fffffffded1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $rsp
+0x7fffffffdbe0:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0x7fffffffdbe8:	0x72	0xde	0xff	0xff	0xff	0x7f	0x00	0x00
+GDB inferior exited event: exit_code=0
+(pwndbg) stepi
+
+PASS: all stack transitions, pushed/popped values, return addresses, final stack/frame restoration, expected results, and exit status verified.

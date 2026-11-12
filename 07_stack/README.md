@@ -1,4 +1,19 @@
-# 07 — The stack: predict, step, explain
+# 07 - The stack: predict, step, explain
+
+## Stack examples
+
+Each guide explains execution from `_start` to exit, including stack operations, register values, and observations from Pwndbg.
+
+| Source | Separate README | Focus |
+|---|---|---|
+| [01.asm](01.asm) | [01 guide](01_README.md) | Two pushes and pops into different registers |
+| [02.asm](02.asm) | [02 guide](02_README.md) | 64-bit function frame and local variables |
+| [03.asm](03.asm) | [03 guide](03_README.md) | Return address stored by `call` and consumed by `ret` |
+| [04.asm](04.asm) | [04 guide](04_README.md) | 32-bit function frame and local variables |
+| [05.asm](05.asm) | [05 guide](05_README.md) | 8-byte stack slots and little-endian storage |
+| [06.asm](06.asm) | [06 guide](06_README.md) | 4-byte stack slots and little-endian storage |
+
+Run `python3 07_stack/verify_stack.py` from the repository root in WSL to rebuild and check all six programs with Pwndbg. All six programs exit with status 0 and produce no terminal output.
 
 **Virtual-class mission:** run every program, pause at the interesting instruction, and explain what changed in registers and memory. These examples produce **no terminal output**; the evidence is in GDB. Bring one question or a changed version of a program to discuss.
 
@@ -85,7 +100,7 @@ In `04`, use `x/4wx $ebp-8` and `x/wx $ebp+4`. The positive offset points at the
 
 **Try it:** change `add rax, 5` to `add rax, 20`. Predict the result before running. Then explain why the final shell exit status is still `0`: `_start` later replaces `RAX` with the exit syscall number and clears `RDI`.
 
-## Worked trace: `01.asm` — two pushes, two pops
+## Worked trace: `01.asm` - two pushes, two pops
 
 The important part of the program is short enough to trace instruction by instruction:
 
@@ -116,7 +131,7 @@ At the first `nop`, use `x/2gx $rsp`. Before the second `nop`, step past both po
 
 **Live question:** if `pop rcx` were replaced by `pop rax`, what would happen to `RAX`? Would the values still leave the stack in the same order?
 
-## Worked trace: `02.asm` — a 64-bit stack frame
+## Worked trace: `02.asm` - a 64-bit stack frame
 
 The `work` procedure makes room for two local 64-bit values:
 
@@ -152,7 +167,7 @@ Walk through the epilogue carefully. `mov rsp, rbp` moves past both locals. `pop
 
 **Challenge:** remove `mov rsp, rbp` in a temporary copy. Predict which value `pop rbp` will take and what `ret` will use as an address. Run only under GDB and explain the failure. Restore the correct epilogue afterward.
 
-## Worked trace: `03.asm` — the return address is enough
+## Worked trace: `03.asm` - the return address is enough
 
 There is no `push rbp` and no local allocation:
 
@@ -182,7 +197,7 @@ info registers rax rsp
 
 The value at `[RSP]` inside `calculate` is an **address**, not the input number. Ask a classmate to identify which instruction it points to. The input and result use a register; the stack is used only for control flow in this example.
 
-## Worked trace: `04.asm` — the same frame in 32-bit mode
+## Worked trace: `04.asm` - the same frame in 32-bit mode
 
 `04` mirrors `02`, but uses 32-bit registers and four-byte local values. The `BITS 32` directive and the `elf32`/`elf_i386` build options are all needed. At the `nop`, let `F=EBP`:
 
@@ -201,7 +216,7 @@ After returning, this program exits through `mov eax, 1` and `int 0x80`, the 32-
 
 **Live question:** what would happen if `BITS 32` instructions were placed in a 64-bit executable? NASM may still produce an object file, so inspect the output format with `file` and the instructions with `objdump -d -M intel` before assuming that a successful assembly means the program will run correctly. Explain why this example is built as `elf32` and linked with `elf_i386`.
 
-## Worked trace: `05.asm` — preserving entire 64-bit values
+## Worked trace: `05.asm` - preserving entire 64-bit values
 
 `05` pushes `0x1122334455667788` from `RAX` and `0x1234` from `RBX`, then pops in reverse order. The stack holds the entire eight-byte `RAX` value. At the first `nop`:
 
@@ -214,7 +229,7 @@ At the second `nop`, `RBX=0x1234` and `RAX=0x1122334455667788`. The leading zero
 
 **Try it:** replace `pop rbx` with `pop rcx` in a temporary copy. Which register no longer gets restored? What still happens to `RSP`?
 
-## Worked trace: `06.asm` — preserving 32-bit values
+## Worked trace: `06.asm` - preserving 32-bit values
 
 `06` uses the same pattern with `EAX=0x11223344` and `EBX=0x1234`. Each push stores **four** bytes. At its `nop`, `EAX` and `EBX` hold their original values and `ESP` is back where it started.
 

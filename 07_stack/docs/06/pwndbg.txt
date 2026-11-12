@@ -1,0 +1,205 @@
+(pwndbg) file /mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06
+(pwndbg) version
+Pwndbg:   2026.07.29 build: f14054b4d (Linux)
+Python:   3.14.7 (main, Sep  5 2026, 05:55:41) [GCC 16.2.0]
+GDB:      17.2
+Capstone: 5.0.6
+Unicorn:  2.1.4
+Pwnlib:   4.14.1
+(pwndbg) starti
+(pwndbg) disassemble _start
+Dump of assembler code for function _start:
+=> 0x08049000 <+0>:	mov    eax,0x11223344
+   0x08049005 <+5>:	mov    ebx,0x1234
+   0x0804900a <+10>:	push   eax
+   0x0804900b <+11>:	push   ebx
+   0x0804900c <+12>:	nop
+   0x0804900d <+13>:	pop    ebx
+   0x0804900e <+14>:	pop    eax
+   0x0804900f <+15>:	mov    eax,0x1
+   0x08049014 <+20>:	xor    ebx,ebx
+   0x08049016 <+22>:	int    0x80
+End of assembler dump.
+
+STEP 0: 0x8049000 mov    eax,0x11223344; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x0                 0x0
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 1: 0x8049005 mov    ebx,0x1234; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x11223344          0x11223344
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 2: 0x804900a push   eax; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x11223344          0x11223344
+ebx            0x1234              0x1234
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 3: 0x804900b push   ebx; esp-entry = -4
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd0c          0xffffcd0c
+ebp            0x0                 0x0
+eax            0x11223344          0x11223344
+ebx            0x1234              0x1234
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd0c ◂— 0x11223344
+01:0004│     0xffffcd10 ◂— 1
+02:0008│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+03:000c│     0xffffcd18 ◂— 0
+(pwndbg) x/16bx $esp
+0xffffcd0c:	0x44	0x33	0x22	0x11	0x01	0x00	0x00	0x00
+0xffffcd14:	0x72	0xce	0xff	0xff	0x00	0x00	0x00	0x00
+(pwndbg) stepi
+
+STEP 4: 0x804900c nop; esp-entry = -8
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd08          0xffffcd08
+ebp            0x0                 0x0
+eax            0x11223344          0x11223344
+ebx            0x1234              0x1234
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd08 ◂— 0x1234
+01:0004│     0xffffcd0c ◂— 0x11223344
+02:0008│     0xffffcd10 ◂— 1
+03:000c│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+(pwndbg) x/16bx $esp
+0xffffcd08:	0x34	0x12	0x00	0x00	0x44	0x33	0x22	0x11
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 5: 0x804900d pop    ebx; esp-entry = -8
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd08          0xffffcd08
+ebp            0x0                 0x0
+eax            0x11223344          0x11223344
+ebx            0x1234              0x1234
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd08 ◂— 0x1234
+01:0004│     0xffffcd0c ◂— 0x11223344
+02:0008│     0xffffcd10 ◂— 1
+03:000c│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+(pwndbg) x/16bx $esp
+0xffffcd08:	0x34	0x12	0x00	0x00	0x44	0x33	0x22	0x11
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 6: 0x804900e pop    eax; esp-entry = -4
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd0c          0xffffcd0c
+ebp            0x0                 0x0
+eax            0x11223344          0x11223344
+ebx            0x1234              0x1234
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd0c ◂— 0x11223344
+01:0004│     0xffffcd10 ◂— 1
+02:0008│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+03:000c│     0xffffcd18 ◂— 0
+(pwndbg) x/16bx $esp
+0xffffcd0c:	0x44	0x33	0x22	0x11	0x01	0x00	0x00	0x00
+0xffffcd14:	0x72	0xce	0xff	0xff	0x00	0x00	0x00	0x00
+(pwndbg) stepi
+
+STEP 7: 0x804900f mov    eax,0x1; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x11223344          0x11223344
+ebx            0x1234              0x1234
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 8: 0x8049014 xor    ebx,ebx; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x1                 0x1
+ebx            0x1234              0x1234
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 9: 0x8049016 int    0x80; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x1                 0x1
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/06'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+GDB inferior exited event: exit_code=0
+(pwndbg) stepi
+
+PASS: all stack transitions, pushed/popped values, return addresses, final stack/frame restoration, expected results, and exit status verified.

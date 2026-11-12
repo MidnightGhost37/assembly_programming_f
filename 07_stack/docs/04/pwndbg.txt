@@ -1,0 +1,303 @@
+(pwndbg) file /mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04
+(pwndbg) version
+Pwndbg:   2026.07.29 build: f14054b4d (Linux)
+Python:   3.14.7 (main, Sep  5 2026, 05:55:41) [GCC 16.2.0]
+GDB:      17.2
+Capstone: 5.0.6
+Unicorn:  2.1.4
+Pwnlib:   4.14.1
+(pwndbg) starti
+(pwndbg) disassemble _start
+Dump of assembler code for function _start:
+=> 0x08049000 <+0>:	call   0x804900e <work>
+   0x08049005 <+5>:	mov    eax,0x1
+   0x0804900a <+10>:	xor    ebx,ebx
+   0x0804900c <+12>:	int    0x80
+End of assembler dump.
+(pwndbg) disassemble work
+Dump of assembler code for function work:
+   0x0804900e <+0>:	push   ebp
+   0x0804900f <+1>:	mov    ebp,esp
+   0x08049011 <+3>:	sub    esp,0x8
+   0x08049014 <+6>:	mov    DWORD PTR [ebp-0x4],0x64
+   0x0804901b <+13>:	mov    DWORD PTR [ebp-0x8],0xc8
+   0x08049022 <+20>:	mov    eax,DWORD PTR [ebp-0x4]
+   0x08049025 <+23>:	mov    ebx,DWORD PTR [ebp-0x8]
+   0x08049028 <+26>:	nop
+   0x08049029 <+27>:	mov    esp,ebp
+   0x0804902b <+29>:	pop    ebp
+   0x0804902c <+30>:	ret
+End of assembler dump.
+
+STEP 0: 0x8049000 call   0x804900e <work>; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x0                 0x0
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 1: 0x804900e push   ebp; esp-entry = -4
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd0c          0xffffcd0c
+ebp            0x0                 0x0
+eax            0x0                 0x0
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+01:0004│     0xffffcd10 ◂— 1
+02:0008│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04'
+03:000c│     0xffffcd18 ◂— 0
+(pwndbg) x/16bx $esp
+0xffffcd0c:	0x05	0x90	0x04	0x08	0x01	0x00	0x00	0x00
+0xffffcd14:	0x72	0xce	0xff	0xff	0x00	0x00	0x00	0x00
+(pwndbg) stepi
+
+STEP 2: 0x804900f mov    ebp,esp; esp-entry = -8
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd08          0xffffcd08
+ebp            0x0                 0x0
+eax            0x0                 0x0
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd08 ◂— 0
+01:0004│     0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+02:0008│     0xffffcd10 ◂— 1
+03:000c│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04'
+(pwndbg) x/16bx $esp
+0xffffcd08:	0x00	0x00	0x00	0x00	0x05	0x90	0x04	0x08
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 3: 0x8049011 sub    esp,0x8; esp-entry = -8
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd08          0xffffcd08
+ebp            0xffffcd08          0xffffcd08
+eax            0x0                 0x0
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ ebp esp 0xffffcd08 ◂— 0
+01:0004│+004     0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+02:0008│+008     0xffffcd10 ◂— 1
+03:000c│+00c     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04'
+(pwndbg) x/16bx $esp
+0xffffcd08:	0x00	0x00	0x00	0x00	0x05	0x90	0x04	0x08
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 4: 0x8049014 mov    DWORD PTR [ebp-0x4],0x64; esp-entry = -16
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd00          0xffffcd00
+ebp            0xffffcd08          0xffffcd08
+eax            0x0                 0x0
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd00 ◂— 0
+01:0004│-004 0xffffcd04 ◂— 0
+02:0008│ ebp 0xffffcd08 ◂— 0
+03:000c│+004 0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+(pwndbg) x/16bx $esp
+0xffffcd00:	0x00	0x00	0x00	0x00	0x00	0x00	0x00	0x00
+0xffffcd08:	0x00	0x00	0x00	0x00	0x05	0x90	0x04	0x08
+(pwndbg) stepi
+
+STEP 5: 0x804901b mov    DWORD PTR [ebp-0x8],0xc8; esp-entry = -16
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd00          0xffffcd00
+ebp            0xffffcd08          0xffffcd08
+eax            0x0                 0x0
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd00 ◂— 0
+01:0004│-004 0xffffcd04 ◂— 0x64 /* 'd' */
+02:0008│ ebp 0xffffcd08 ◂— 0
+03:000c│+004 0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+(pwndbg) x/16bx $esp
+0xffffcd00:	0x00	0x00	0x00	0x00	0x64	0x00	0x00	0x00
+0xffffcd08:	0x00	0x00	0x00	0x00	0x05	0x90	0x04	0x08
+(pwndbg) stepi
+
+STEP 6: 0x8049022 mov    eax,DWORD PTR [ebp-0x4]; esp-entry = -16
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd00          0xffffcd00
+ebp            0xffffcd08          0xffffcd08
+eax            0x0                 0x0
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd00 ◂— 0xc8
+01:0004│-004 0xffffcd04 ◂— 0x64 /* 'd' */
+02:0008│ ebp 0xffffcd08 ◂— 0
+03:000c│+004 0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+(pwndbg) x/16bx $esp
+0xffffcd00:	0xc8	0x00	0x00	0x00	0x64	0x00	0x00	0x00
+0xffffcd08:	0x00	0x00	0x00	0x00	0x05	0x90	0x04	0x08
+(pwndbg) stepi
+
+STEP 7: 0x8049025 mov    ebx,DWORD PTR [ebp-0x8]; esp-entry = -16
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd00          0xffffcd00
+ebp            0xffffcd08          0xffffcd08
+eax            0x64                0x64
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd00 ◂— 0xc8
+01:0004│-004 0xffffcd04 ◂— 0x64 /* 'd' */
+02:0008│ ebp 0xffffcd08 ◂— 0
+03:000c│+004 0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+(pwndbg) x/16bx $esp
+0xffffcd00:	0xc8	0x00	0x00	0x00	0x64	0x00	0x00	0x00
+0xffffcd08:	0x00	0x00	0x00	0x00	0x05	0x90	0x04	0x08
+(pwndbg) stepi
+
+STEP 8: 0x8049028 nop; esp-entry = -16
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd00          0xffffcd00
+ebp            0xffffcd08          0xffffcd08
+eax            0x64                0x64
+ebx            0xc8                0xc8
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd00 ◂— 0xc8
+01:0004│-004 0xffffcd04 ◂— 0x64 /* 'd' */
+02:0008│ ebp 0xffffcd08 ◂— 0
+03:000c│+004 0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+(pwndbg) x/16bx $esp
+0xffffcd00:	0xc8	0x00	0x00	0x00	0x64	0x00	0x00	0x00
+0xffffcd08:	0x00	0x00	0x00	0x00	0x05	0x90	0x04	0x08
+(pwndbg) stepi
+
+STEP 9: 0x8049029 mov    esp,ebp; esp-entry = -16
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd00          0xffffcd00
+ebp            0xffffcd08          0xffffcd08
+eax            0x64                0x64
+ebx            0xc8                0xc8
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd00 ◂— 0xc8
+01:0004│-004 0xffffcd04 ◂— 0x64 /* 'd' */
+02:0008│ ebp 0xffffcd08 ◂— 0
+03:000c│+004 0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+(pwndbg) x/16bx $esp
+0xffffcd00:	0xc8	0x00	0x00	0x00	0x64	0x00	0x00	0x00
+0xffffcd08:	0x00	0x00	0x00	0x00	0x05	0x90	0x04	0x08
+(pwndbg) stepi
+
+STEP 10: 0x804902b pop    ebp; esp-entry = -8
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd08          0xffffcd08
+ebp            0xffffcd08          0xffffcd08
+eax            0x64                0x64
+ebx            0xc8                0xc8
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ ebp esp 0xffffcd08 ◂— 0
+01:0004│+004     0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+02:0008│+008     0xffffcd10 ◂— 1
+03:000c│+00c     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04'
+(pwndbg) x/16bx $esp
+0xffffcd08:	0x00	0x00	0x00	0x00	0x05	0x90	0x04	0x08
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 11: 0x804902c ret; esp-entry = -4
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd0c          0xffffcd0c
+ebp            0x0                 0x0
+eax            0x64                0x64
+ebx            0xc8                0xc8
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd0c —▸ 0x8049005 (_start+5) ◂— mov eax, 1
+01:0004│     0xffffcd10 ◂— 1
+02:0008│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04'
+03:000c│     0xffffcd18 ◂— 0
+(pwndbg) x/16bx $esp
+0xffffcd0c:	0x05	0x90	0x04	0x08	0x01	0x00	0x00	0x00
+0xffffcd14:	0x72	0xce	0xff	0xff	0x00	0x00	0x00	0x00
+(pwndbg) stepi
+
+STEP 12: 0x8049005 mov    eax,0x1; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x64                0x64
+ebx            0xc8                0xc8
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 13: 0x804900a xor    ebx,ebx; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x1                 0x1
+ebx            0xc8                0xc8
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+(pwndbg) stepi
+
+STEP 14: 0x804900c int    0x80; esp-entry = 0
+(pwndbg) info registers esp ebp eax ebx ecx edx
+esp            0xffffcd10          0xffffcd10
+ebp            0x0                 0x0
+eax            0x1                 0x1
+ebx            0x0                 0x0
+ecx            0x0                 0x0
+edx            0x0                 0x0
+(pwndbg) telescope $esp 4
+00:0000│ esp 0xffffcd10 ◂— 1
+01:0004│     0xffffcd14 —▸ 0xffffce72 ◂— '/mnt/c/Users/manot/OneDrive/Documents/GitHub/assembly_programming_f/build/07_stack/verified/04'
+02:0008│     0xffffcd18 ◂— 0
+03:000c│     0xffffcd1c —▸ 0xffffced1 ◂— 'SHELL=/usr/bin/zsh'
+(pwndbg) x/16bx $esp
+0xffffcd10:	0x01	0x00	0x00	0x00	0x72	0xce	0xff	0xff
+0xffffcd18:	0x00	0x00	0x00	0x00	0xd1	0xce	0xff	0xff
+GDB inferior exited event: exit_code=0
+(pwndbg) stepi
+
+PASS: all stack transitions, pushed/popped values, return addresses, final stack/frame restoration, expected results, and exit status verified.
